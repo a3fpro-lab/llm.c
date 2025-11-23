@@ -70,6 +70,13 @@ GPT-2 Transformer Neural Net training loop. See README.md for usage.
 // defines: multi_gpu_get_shard_offset, multi_gpu_async_reduce_gradient
 #include "llmc/zero.cuh"
 
+// --- TRP scheduler state (optional) ---
+static int trp_enabled = 0;
+static float trp_P = 1.0f;        // perception gain
+static float trp_ema_loss = 0.0f; // EMA for loss surprise
+static float trp_alpha = 0.01f;   // perception update rate
+static float trp_clip = 10.0f;    // keeps dt_eff sane
+
 // ----------------------------------------------------------------------------
 // global vars for I/O
 char filename_buffer[512];
