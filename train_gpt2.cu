@@ -1500,7 +1500,19 @@ int main(int argc, char *argv[]) {
         else if (argv[i][1] == 'p' && argv[i][2] == 's') { strcpy(server_ip, argv[i+1]); }
         else if (argv[i][1] == 'p' && argv[i][2] == 'n') { num_processes = atoi(argv[i+1]); }
         else if (argv[i][1] == 'p' && argv[i][2] == 'r') { process_rank = atoi(argv[i+1]); }
-        else if (argv[i][1] == 'p' && argv[i][2] == 'g') { gpus_per_node = atoi(argv[i+1]); }
+      // TRP scheduler flags
+if (strcmp(argv[i], "--sched") == 0 && i + 1 < argc) {
+    const char* sched = argv[++i];
+    if (strcmp(sched, "trp") == 0) trp_enabled = 1;
+}
+if (strcmp(argv[i], "--trp_alpha") == 0 && i + 1 < argc) {
+    trp_alpha = atof(argv[++i]);
+}
+if (strcmp(argv[i], "--trp_clip") == 0 && i + 1 < argc) {
+    trp_clip = atof(argv[++i]);
+} 
+
+else if (argv[i][1] == 'p' && argv[i][2] == 'g') { gpus_per_node = atoi(argv[i+1]); }
         else if (argv[i][1] == 's' && argv[i][2] == 'l') { skip_update_lossz = atof(argv[i+1]); }
         else if (argv[i][1] == 's' && argv[i][2] == 'g') { skip_update_gradz = atof(argv[i+1]); }
         else if (argv[i][1] == 'n' && argv[i][2] == 'k') { checkpoints_keep = atoi(argv[i+1]); }
